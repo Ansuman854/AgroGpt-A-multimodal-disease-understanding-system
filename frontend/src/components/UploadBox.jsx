@@ -25,8 +25,8 @@ export default function UploadBox({ setResult }) {
             setLoading(true)
 
             const response = await axios.post(
-                "http://127.0.0.1:8000/predict",
-                formData
+                "https://ansuman12-agrogpt-backend.hf.space/predict",
+                 formData
             )
 
             setResult(response.data)
