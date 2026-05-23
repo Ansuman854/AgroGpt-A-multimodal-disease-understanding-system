@@ -40,11 +40,28 @@ def search_links(query):
         "q": query
     }
 
-    response = requests.post(
-        url,
-        data=data,
-        headers=headers
-    )
+    try:
+
+        response = requests.post(
+            url,
+            data=data,
+            headers=headers,
+            timeout=8
+        )
+
+        response.raise_for_status()
+
+    except requests.exceptions.Timeout:
+
+        print("DuckDuckGo timeout occurred")
+
+        return []
+
+    except requests.exceptions.RequestException as e:
+
+        print(f"Search request failed: {e}")
+
+        return []
 
     soup = BeautifulSoup(
         response.text,
@@ -319,6 +336,22 @@ def get_disease_info(class_name):
     print(f"\nSearching for: {query}\n")
 
     links = search_links(query)
+
+    if not links:
+        return {
+
+        "crop": crop,
+
+        "disease": disease,
+
+        "description": "Internet knowledge temporarily unavailable.",
+
+        "cause": "Not available",
+
+        "remedy": "Not available",
+
+        "prevention": "Not available"
+    }
 
     full_text = ""
 
