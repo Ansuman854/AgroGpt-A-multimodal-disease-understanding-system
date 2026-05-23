@@ -94,4 +94,4 @@ def overlay_gradcam(image_path, cam):
 
     cv2.imwrite(output_path, overlay)
 
-    return f"http://127.0.0.1:8000/outputs/{filename}"
+    return f"/outputs/{filename}"

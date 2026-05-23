@@ -119,7 +119,7 @@ function ResultCard({ result }) {
                     <div className="rounded-[30px] overflow-hidden border border-gray-200">
 
                         <img
-                            src={`${result.gradcam}?t=${Date.now()}`}
+                            src={`https://ansuman12-agrogpt-backend.hf.space${result.gradcam}?t=${Date.now()}`}
                             alt="gradcam"
                             className="w-full object-cover"
                         />
