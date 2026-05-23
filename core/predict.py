@@ -73,18 +73,17 @@ def predict(image_path, crop_name=None, top_k=3):
 
         score = probs[idx].item()
 
-        # crop-guided confidence boost
+        
+        # strict crop-aware filtering
         if crop_name:
-
-            if crop_name.lower() in class_name.lower():
-
-                score += 0.20
+            if crop_name.lower() not in class_name.lower():
+                continue
 
         boosted_results.append({
 
             "class": class_name,
 
-            "confidence": score,
+            "confidence": score * 100,
 
             "class_idx": idx,
 
@@ -93,6 +92,15 @@ def predict(image_path, crop_name=None, top_k=3):
             "model": model
         })
 
+    if len(boosted_results) == 0:
+        return [{
+        "class": "No matching crop class found",
+        "confidence": 0,
+        "class_idx": -1,
+        "tensor": img,
+        "model": model
+    }], model  
+      
     boosted_results = sorted(
 
         boosted_results,
